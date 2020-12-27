@@ -11,3 +11,11 @@ As with most artificial life simulations, Boids is an example of emergent behavi
 * **Separation**: steer to avoid crowding local flockmates  
 * **Alignment**: steer towards the average heading of local flockmates  
 * **Cohesion**: steer to move towards the average position (center of mass) of local flockmates  
+  
+## Building  
+  
+**Windows:**  
+Edit `build-windows.bat`, and Ensure that `VC_INIT` points to your local installation of Visual Studio's C++ build tools.  
+Run `build-windows.bat` from a command prompt.  
+`build-windows.bat -d` will create a debug build.  
+`build-windows.bat -c` will perform a clean build.  
