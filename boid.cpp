@@ -11,30 +11,80 @@ Boid::Boid(Game *game)
 
 void Boid::Update()
 {
-    // Separation
-    averageDirection = Vector2Zero();
+    int numLocalBoids = 0;
 
-    // Calculate average direction difference
+    // Separation
+    separationDirection = Vector2Zero();
+
+    // Alignment
+    averageAlignment = Vector2Zero();
+
+    // Cohesion
+    localCenterOfMass = Vector2Zero();
+
     for (Boid *boid : game->boids)
     {
         // Don't calculate ourselves
         if (boid == this)
             continue;
 
+        // Only consider boids in our local range
+        if (Vector2LengthSqr(Vector2Subtract(pos, boid->pos)) > FLOCK_RANGE_SQR)
+            continue;
+
+        numLocalBoids++;
+
+        // Separation
         Vector2 difference = Vector2Subtract(pos, boid->pos);
 
-        averageDirection = Vector2Add(averageDirection,
-                                      Vector2Scale(Vector2Normalize(difference), SEPARATION_FACTOR / Vector2LengthSqr(difference)));
+        separationDirection = Vector2Add(separationDirection,
+                                         Vector2Scale(Vector2Normalize(difference), SEPARATION_FACTOR / Vector2LengthSqr(difference)));
+
+        // Alignment
+        averageAlignment = Vector2Add(averageAlignment, boid->dir);
+
+        // Cohesion
+        localCenterOfMass = Vector2Add(localCenterOfMass, boid->pos);
     }
 
-    if (Vector2LengthSqr(averageDirection) > SEPARATION_THRESHOLD)
+    if (numLocalBoids != 0)
     {
-        dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(averageDirection), ROTATE_SPEED));
+        // Separation
+        if (Vector2LengthSqr(separationDirection) != 0)
+        {
+            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(separationDirection), SEPARATION_LERP_AMOUNT * ROTATE_SPEED));
+        }
+
+        // Alignment
+        if (Vector2LengthSqr(separationDirection) != 0)
+        {
+            averageAlignment = Vector2Scale(averageAlignment, 1. / numLocalBoids);
+            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(averageAlignment), ALIGNMENT_LERP_AMOUNT * ROTATE_SPEED));
+        }
+
+        // Cohesion
+        if (Vector2LengthSqr(localCenterOfMass) != 0)
+        {
+            localCenterOfMass = Vector2Scale(localCenterOfMass, 1. / numLocalBoids);
+            cohesionDirection = Vector2Subtract(localCenterOfMass, pos);
+
+            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(cohesionDirection), COHESION_LERP_AMOUNT * ROTATE_SPEED));
+        }
     }
 
     // Move position according to velocity and direction
     pos = Vector2Add(pos,
                      Vector2Scale(dir, velocity));
+
+    // Wrap around the screen
+    if (pos.x > game->width)
+        pos.x = 0;
+    if (pos.x < 0)
+        pos.x = game->width;
+    if (pos.y > game->height)
+        pos.y = 0;
+    if (pos.y < 0)
+        pos.y = game->height;
 }
 
 void Boid::Draw() const
@@ -50,8 +100,16 @@ void Boid::Draw() const
         Vector2Add(bottom, Vector2Scale(norm_dir, BOID_WIDTH)),
         SKYBLUE);
 
-    // Draw vectors to aid debugging
-    DrawLineEx(pos, Vector2Add(pos, Vector2Scale(dir, velocity * 40)), 2., GREEN);
-    DrawLineEx(pos, Vector2Add(pos, Vector2Scale(norm_dir, velocity * 20)), 2., RED);
-    DrawLineEx(pos, Vector2Add(pos, averageDirection), 2., DARKPURPLE);
+    if (DRAW_DEBUG)
+    {
+        // Draw vectors to aid debugging
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(dir, velocity * 40)), 2., GREEN);
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(norm_dir, velocity * 20)), 2., RED);
+        DrawLineEx(pos, Vector2Add(pos, separationDirection), 2., DARKPURPLE);
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(averageAlignment, 40)), 2., PINK);
+        DrawLineEx(pos, Vector2Add(pos, cohesionDirection), 2., ORANGE);
+
+        DrawCircleLines(pos.x, pos.y, sqrtf(FLOCK_RANGE_SQR), YELLOW);
+        DrawCircle(localCenterOfMass.x, localCenterOfMass.y, 10, ORANGE);
+    }
 }

@@ -16,8 +16,8 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1600;
+    const int screenHeight = 900;
 
     InitWindow(screenWidth, screenHeight, "Boids");
 
@@ -36,7 +36,7 @@ int main(void)
         {
             double theta = ((float)rand() / (float)RAND_MAX) * 2 * PI;
             Vector2 direction = {(float)cos(theta), (float)sin(theta)};
-            game.AddBoid(GetMousePosition(), direction, 1.);
+            game.AddBoid(GetMousePosition(), direction, BOID_SPEED);
         }
 
         game.Update();
