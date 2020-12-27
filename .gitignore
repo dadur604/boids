@@ -9,3 +9,6 @@ raylib
 
 # Emacs Temp Files
 *~
+
+# VSCode
+.vscode

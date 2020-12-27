@@ -1,3 +1,4 @@
+#include <vector>
 #include "raymath.h"
 
 class Boid;
@@ -7,8 +8,7 @@ const static int MAX_BOIDS = 10;
 class Game
 {
 public:
-    Boid *boids[MAX_BOIDS];
-    int numBoids;
+    std::vector<Boid *> boids;
     int width;
     int height;
     Game(int width, int height);
