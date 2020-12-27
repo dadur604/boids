@@ -1,6 +1,7 @@
 
 # Build Outputs
 builds
+builds-debug
 temp
 
 # Raylib Sources

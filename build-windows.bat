@@ -5,7 +5,7 @@ set GAME_NAME=main.exe
 REM Set your sources here (relative paths!)
 REM Example with two source folders:
 REM set SOURCES=src\*.c src\submodule\*.c
-set SOURCES=main.cpp
+set SOURCES=*.cpp
 
 REM Set your raylib\src location here (relative path!)
 set RAYLIB_SRC=raylib\src
@@ -111,10 +111,12 @@ set "SOURCES=!ROOT_DIR!\!SOURCES!"
 set "RAYLIB_SRC=!ROOT_DIR!\!RAYLIB_SRC!"
 
 REM Flags
+REM /fsanitize=address /MT
 set OUTPUT_FLAG=/Fe: "!GAME_NAME!"
-set COMPILATION_FLAGS=/O1 /GL
+set COMPILATION_FLAGS=/O1 /GL 
 set WARNING_FLAGS=
-set SUBSYSTEM_FLAGS=/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup
+REM Change to /SUBSYSTEM:WINDOWS to hide Console.
+set SUBSYSTEM_FLAGS=/SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup 
 set LINK_FLAGS=/link /LTCG kernel32.lib user32.lib shell32.lib winmm.lib gdi32.lib opengl32.lib
 set OUTPUT_DIR=builds\windows-msvc
 REM Debug changes to flags
@@ -122,7 +124,7 @@ IF DEFINED BUILD_DEBUG (
   set OUTPUT_FLAG=/Fe: "!GAME_NAME!"
   set COMPILATION_FLAGS=/Od /Zi
   set WARNING_FLAGS=/Wall
-  set SUBSYSTEM_FLAGS=/DEBUG
+  set SUBSYSTEM_FLAGS=/DEBUG /SUBSYSTEM:CONSOLE /ENTRY:mainCRTStartup 
   set LINK_FLAGS=/link kernel32.lib user32.lib shell32.lib winmm.lib gdi32.lib opengl32.lib
   set OUTPUT_DIR=builds-debug\windows-msvc
 )
