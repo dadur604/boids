@@ -4,9 +4,6 @@ builds
 builds-debug
 temp
 
-# Raylib Sources
-raylib
-
 # Emacs Temp Files
 *~
 
