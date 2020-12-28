@@ -1,5 +1,7 @@
 # Boids  
 
+<img src="https://i.imgur.com/UXdkhnL.gif" width="400" height="270" /> <img src="https://i.imgur.com/i01bysF.gif" width="400" height="270" />  
+  
 This is my implementation of a Boids-Simulation.  
 I am using [raylib](https://github.com/raysan5/raylib) as the graphics framework, and [raygui](https://github.com/raysan5/raygui) as imgui.
 
