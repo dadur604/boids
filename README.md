@@ -1,7 +1,7 @@
 # Boids  
 
 This is my implementation of a Boids-Simulation.  
-I am using [raylib](https://github.com/raysan5/raylib) as the graphics framework.
+I am using [raylib](https://github.com/raysan5/raylib) as the graphics framework, and [raygui](https://github.com/raysan5/raygui) as imgui.
 
 *From [Wikipedia](https://en.wikipedia.org/wiki/Boids):*  
 **Boids** is an artificial life program, developed by Craig Reynolds in 1986, which simulates the flocking behaviour of birds.  
