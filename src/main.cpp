@@ -45,7 +45,15 @@ int main(void)
         // Update
         if (IsMouseButtonPressed(0))
         {
-            game.AddUniqueBoid(GetMousePosition());
+            Vector2 mousePos = GetMousePosition();
+
+            if (!(mousePos.x > screenWidth - 320 &&
+                  mousePos.x < screenWidth - 20 &&
+                  mousePos.y > 30 &&
+                  mousePos.y < 680))
+            {
+                game.AddUniqueBoid(mousePos);
+            }
         }
 
         game.Update();

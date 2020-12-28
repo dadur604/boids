@@ -21,14 +21,8 @@ public:
     static Color MAIN_BOID_COLOR;
     static Color UNIQUE_BOID_COLOR;
 
-    Game *game;
     Vector2 pos;
-    float velocity;
     Vector2 dir;
-    Vector2 separationDirection;
-    Vector2 averageAlignment;
-    Vector2 localCenterOfMass;
-    Vector2 cohesionDirection;
 
     Boid(Game *game);
 
@@ -38,5 +32,10 @@ public:
     void Draw() const;
 
 private:
+    Game *game;
+    Vector2 separationDirection;
+    Vector2 averageAlignment;
+    Vector2 localCenterOfMass;
+    Vector2 cohesionDirection;
     bool unique = false;
 };

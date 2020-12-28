@@ -43,6 +43,7 @@ void Boid::Update()
     averageAlignment = Vector2Zero();
 
     // Cohesion
+    cohesionDirection = Vector2Zero();
     localCenterOfMass = Vector2Zero();
 
     for (Boid *boid : game->boids)
@@ -127,9 +128,9 @@ void Boid::Draw() const
     if (DRAW_DEBUG)
     {
         // Draw vectors to aid debugging
-        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(dir, velocity * 40)), 2., GREEN);
-        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(norm_dir, velocity * 20)), 2., RED);
-        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(separationDirection, 40)), 2., DARKPURPLE);
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(dir, 40)), 2., GREEN);
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(norm_dir, 20)), 2., BLUE);
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(separationDirection, 40)), 2., RED);
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(averageAlignment, 40)), 2., PINK);
         DrawLineEx(pos, Vector2Add(pos, cohesionDirection), 2., ORANGE);
 
