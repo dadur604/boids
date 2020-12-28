@@ -90,8 +90,6 @@ void Boid::Update()
     pos = Vector2Add(pos,
                      Vector2Scale(dir, BOID_SPEED));
 
-    std::cout << BOID_SPEED << std::endl;
-
     // Wrap around the screen
     if (pos.x > game->width)
         pos.x = 0;
