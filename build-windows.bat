@@ -10,6 +10,9 @@ set SOURCES=src/*.cpp
 REM Set your raylib\src location here (relative path!)
 set RAYLIB_SRC=raylib\src
 
+REM Set additional include locations
+set ADDL_INCLUDE=raygui\src
+
 REM Set the target platform for the compiler (Ex: x86 or x64)
 set TARGET_PLATFORM=x86
 
@@ -180,10 +183,10 @@ cd !OUTPUT_DIR!
 REM Build the actual game
 IF NOT DEFINED QUIET echo COMPILE-INFO: Compiling game code.
 IF DEFINED REALLY_QUIET (
-  cl.exe !VERBOSITY_FLAG! !COMPILATION_FLAGS! !WARNING_FLAGS! /c /I"!RAYLIB_SRC!" !SOURCES! > NUL 2>&1 || exit /B
+  cl.exe !VERBOSITY_FLAG! !COMPILATION_FLAGS! !WARNING_FLAGS! /c /I "!ADDL_INCLUDE!" /I"!RAYLIB_SRC!" !SOURCES! > NUL 2>&1 || exit /B
   cl.exe !VERBOSITY_FLAG! !OUTPUT_FLAG! "!ROOT_DIR!\!TEMP_DIR!\*.obj" *.obj !LINK_FLAGS! !SUBSYSTEM_FLAGS! > NUL 2>&1 || exit /B
 ) ELSE (
-  cl.exe !VERBOSITY_FLAG! !COMPILATION_FLAGS! !WARNING_FLAGS! /c /I"!RAYLIB_SRC!" !SOURCES! || exit /B
+  cl.exe !VERBOSITY_FLAG! !COMPILATION_FLAGS! !WARNING_FLAGS! /c /I "!ADDL_INCLUDE!" /I"!RAYLIB_SRC!" !SOURCES! || exit /B
   cl.exe !VERBOSITY_FLAG! !OUTPUT_FLAG! "!ROOT_DIR!\!TEMP_DIR!\*.obj" *.obj !LINK_FLAGS! !SUBSYSTEM_FLAGS! || exit /B
 )
 del *.obj

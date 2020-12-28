@@ -4,6 +4,19 @@
 
 #include <iostream>
 
+bool Boid::DRAW_DEBUG = false;
+
+float Boid::FLOCK_RANGE_SQR = 20000;
+
+float Boid::BOID_SPEED = 10.;
+float Boid::ROTATE_SPEED = 0.6;
+
+float Boid::SEPARATION_LERP_AMOUNT = 0.2;
+float Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
+float Boid::COHESION_LERP_AMOUNT = 0.2;
+
+float Boid::SEPARATION_FACTOR = 200000;
+
 Boid::Boid(Game *game)
     : game(game)
 {
@@ -74,7 +87,9 @@ void Boid::Update()
 
     // Move position according to velocity and direction
     pos = Vector2Add(pos,
-                     Vector2Scale(dir, velocity));
+                     Vector2Scale(dir, BOID_SPEED));
+
+    std::cout << BOID_SPEED << std::endl;
 
     // Wrap around the screen
     if (pos.x > game->width)

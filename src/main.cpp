@@ -1,6 +1,12 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#define RAYGUI_IMPLEMENTATION
+#define RAYGUI_SUPPORT_ICONS
+#include "../raygui/src/raygui.h"
+
+#undef RAYGUI_IMPLEMENTATION
+
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -24,6 +30,8 @@ int main(void)
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
+    bool showParameters = false;
+
     Game game(screenWidth, screenHeight);
 
     srand(time(0));
@@ -36,7 +44,7 @@ int main(void)
         {
             double theta = ((float)rand() / (float)RAND_MAX) * 2 * PI;
             Vector2 direction = {(float)cos(theta), (float)sin(theta)};
-            game.AddBoid(GetMousePosition(), direction, BOID_SPEED);
+            game.AddBoid(GetMousePosition(), direction, 0.);
         }
 
         game.Update();
@@ -47,9 +55,75 @@ int main(void)
 
         ClearBackground(RAYWHITE);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        DrawText("Boids", screenWidth - 250, screenHeight - 50, 20, DARKGRAY);
+        DrawText("Narek Daduryan", screenWidth - 250, screenHeight - 25, 20, DARKGRAY);
 
         game.Draw();
+
+        // Draw GUI
+
+        if (showParameters)
+        {
+            GuiSetStyle(BUTTON, TEXT_ALIGNMENT, GUI_TEXT_ALIGN_LEFT);
+            GuiSetStyle(BUTTON, TEXT_PADDING, 0);
+            if (GuiWindowBox({screenWidth - 320, 30, 300, 500}, "Parameters"))
+            {
+                showParameters = false;
+            }
+
+            GuiLabel({screenWidth - 300, 70, 150, 20}, "Boid Speed");
+            Boid::BOID_SPEED = GuiSlider({screenWidth - 300, 90, 150, 20},
+                                         "",
+                                         TextFormat("%2.2f", (float)Boid::BOID_SPEED),
+                                         Boid::BOID_SPEED, 1, 25);
+
+            GuiLabel({screenWidth - 300, 120, 150, 20}, "Rotation Speed");
+            Boid::ROTATE_SPEED = GuiSlider({screenWidth - 300, 140, 150, 20},
+                                           "",
+                                           TextFormat("%2.2f", (float)Boid::ROTATE_SPEED),
+                                           Boid::ROTATE_SPEED, 0.1, 1);
+
+            GuiLabel({screenWidth - 300, 170, 150, 20}, "Flock Range");
+            Boid::FLOCK_RANGE_SQR = GuiSlider({screenWidth - 300, 190, 150, 20},
+                                              "",
+                                              TextFormat("%2.2f", (float)Boid::FLOCK_RANGE_SQR),
+                                              Boid::FLOCK_RANGE_SQR, 5000, 80000);
+
+            GuiLabel({screenWidth - 300, 220, 150, 20}, "Separation");
+            Boid::SEPARATION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 240, 150, 20},
+                                                     "",
+                                                     TextFormat("%2.2f", (float)Boid::SEPARATION_LERP_AMOUNT),
+                                                     Boid::SEPARATION_LERP_AMOUNT, 0.1, 1);
+
+            GuiLabel({screenWidth - 300, 270, 150, 20}, "Alignment");
+            Boid::ALIGNMENT_LERP_AMOUNT = GuiSlider({screenWidth - 300, 290, 150, 20},
+                                                    "",
+                                                    TextFormat("%2.2f", (float)Boid::ALIGNMENT_LERP_AMOUNT),
+                                                    Boid::ALIGNMENT_LERP_AMOUNT, 0.1, 1);
+
+            GuiLabel({screenWidth - 300, 320, 150, 20}, "Cohesion");
+            Boid::COHESION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 340, 150, 20},
+                                                   "",
+                                                   TextFormat("%2.2f", (float)Boid::COHESION_LERP_AMOUNT),
+                                                   Boid::COHESION_LERP_AMOUNT, 0.1, 1);
+
+            GuiLabel({screenWidth - 300, 370, 150, 20}, "Separation Factor");
+            Boid::SEPARATION_FACTOR = GuiSlider({screenWidth - 300, 390, 150, 20},
+                                                "",
+                                                TextFormat("%2.2f", (float)Boid::SEPARATION_FACTOR),
+                                                Boid::SEPARATION_FACTOR, 50000, 500000);
+
+            Boid::DRAW_DEBUG = GuiCheckBox({screenWidth - 300, 420, 20, 20}, "Draw Debugging Information", Boid::DRAW_DEBUG);
+        }
+        else
+        {
+            GuiSetStyle(BUTTON, TEXT_ALIGNMENT, GUI_TEXT_ALIGN_LEFT);
+            GuiSetStyle(BUTTON, TEXT_PADDING, 5);
+            if (GuiButton({screenWidth - 320, 30, 300, 25}, "Parameters"))
+            {
+                showParameters = true;
+            }
+        }
 
         EndDrawing();
         //----------------------------------------------------------------------------------
