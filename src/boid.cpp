@@ -19,6 +19,8 @@ float Boid::COHESION_LERP_AMOUNT = 0.2;
 
 float Boid::MINIMUM_DISTANCE = 2000;
 
+Color Boid::MAIN_BOID_COLOR = SKYBLUE;
+
 Boid::Boid(Game *game)
     : game(game)
 {
@@ -114,7 +116,7 @@ void Boid::Draw() const
         Vector2Add(pos, (Vector2Scale(dir, BOID_HEIGHT))),
         Vector2Subtract(bottom, Vector2Scale(norm_dir, BOID_WIDTH)),
         Vector2Add(bottom, Vector2Scale(norm_dir, BOID_WIDTH)),
-        SKYBLUE);
+        MAIN_BOID_COLOR);
 
     if (DRAW_DEBUG)
     {

@@ -31,6 +31,9 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     bool showParameters = true;
+    bool showColorPicker = false;
+
+    Color backgroundColor = RAYWHITE;
 
     Game game(screenWidth, screenHeight);
 
@@ -53,7 +56,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(backgroundColor);
 
         DrawText("Boids", screenWidth - 250, screenHeight - 50, 20, DARKGRAY);
         DrawText("Narek Daduryan", screenWidth - 250, screenHeight - 25, 20, DARKGRAY);
@@ -117,6 +120,9 @@ int main(void)
 
             Boid::DRAW_DEBUG = GuiCheckBox({screenWidth - 300, 440, 20, 20}, "Draw Debugging Information", Boid::DRAW_DEBUG);
 
+            if (showColorPicker)
+                GuiLock();
+
             GuiLine({screenWidth - 300, 480, 150, 0}, "Boids");
 
             GuiLabel({screenWidth - 300, 490, 150, 20}, "Number of Boids");
@@ -169,6 +175,29 @@ int main(void)
                 Boid::ALIGNMENT_LERP_AMOUNT = 0;
                 Boid::COHESION_LERP_AMOUNT = 1;
                 Boid::MINIMUM_DISTANCE = 2000;
+            }
+            GuiUnlock();
+
+            if (showColorPicker)
+            {
+                GuiSetStyle(BUTTON, TEXT_PADDING, 0);
+                if (GuiWindowBox({screenWidth - 700, screenHeight - 400, 600, 300}, "Colors"))
+                {
+                    showColorPicker = false;
+                }
+
+                GuiLabel({screenWidth - 680, screenHeight - 360, 220, 20}, "Main Boid Color");
+                Boid::MAIN_BOID_COLOR = GuiColorPicker({screenWidth - 680, screenHeight - 340, 220, 220}, Boid::MAIN_BOID_COLOR);
+
+                GuiLabel({screenWidth - 380, screenHeight - 360, 220, 20}, "Background Color");
+                backgroundColor = GuiColorPicker({screenWidth - 380, screenHeight - 340, 220, 220}, backgroundColor);
+            }
+            else
+            {
+                if (GuiButton({screenWidth - 140, 540, 100, 20}, "Color"))
+                {
+                    showColorPicker = true;
+                }
             }
         }
         else

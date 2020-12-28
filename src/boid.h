@@ -18,6 +18,8 @@ public:
 
     static float MINIMUM_DISTANCE;
 
+    static Color MAIN_BOID_COLOR;
+
     Game *game;
     Vector2 pos;
     float velocity;
