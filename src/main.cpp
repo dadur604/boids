@@ -43,11 +43,9 @@ int main(void)
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {
         // Update
-        if (false && IsMouseButtonPressed(0))
+        if (IsMouseButtonPressed(0))
         {
-            double theta = ((float)rand() / (float)RAND_MAX) * 2 * PI;
-            Vector2 direction = {(float)cos(theta), (float)sin(theta)};
-            game.AddBoid(GetMousePosition(), direction);
+            game.AddUniqueBoid(GetMousePosition());
         }
 
         game.Update();
@@ -181,20 +179,23 @@ int main(void)
             if (showColorPicker)
             {
                 GuiSetStyle(BUTTON, TEXT_PADDING, 0);
-                if (GuiWindowBox({screenWidth - 700, screenHeight - 400, 600, 300}, "Colors"))
+                if (GuiWindowBox({screenWidth - 1000, screenHeight - 400, 900, 300}, "Colors"))
                 {
                     showColorPicker = false;
                 }
 
-                GuiLabel({screenWidth - 680, screenHeight - 360, 220, 20}, "Main Boid Color");
-                Boid::MAIN_BOID_COLOR = GuiColorPicker({screenWidth - 680, screenHeight - 340, 220, 220}, Boid::MAIN_BOID_COLOR);
+                GuiLabel({screenWidth - 980, screenHeight - 360, 220, 20}, "Main Boid Color");
+                Boid::MAIN_BOID_COLOR = GuiColorPicker({screenWidth - 980, screenHeight - 340, 220, 220}, Boid::MAIN_BOID_COLOR);
+
+                GuiLabel({screenWidth - 680, screenHeight - 360, 220, 20}, "Unique Boid Color");
+                Boid::UNIQUE_BOID_COLOR = GuiColorPicker({screenWidth - 680, screenHeight - 340, 220, 220}, Boid::UNIQUE_BOID_COLOR);
 
                 GuiLabel({screenWidth - 380, screenHeight - 360, 220, 20}, "Background Color");
                 backgroundColor = GuiColorPicker({screenWidth - 380, screenHeight - 340, 220, 220}, backgroundColor);
             }
             else
             {
-                if (GuiButton({screenWidth - 140, 540, 100, 20}, "Color"))
+                if (GuiButton({screenWidth - 140, 540, 100, 20}, "Colors"))
                 {
                     showColorPicker = true;
                 }

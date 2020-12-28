@@ -14,7 +14,8 @@ public:
     Game(int width, int height);
     void SetNumBoids(int numBoids);
     void AddBoid();
-    void AddBoid(Vector2 pos, Vector2 dir);
+    Boid *AddBoid(Vector2 pos, Vector2 dir);
+    void AddUniqueBoid(Vector2 pos);
     void RemoveBoid();
     void Update();
     void Draw() const;

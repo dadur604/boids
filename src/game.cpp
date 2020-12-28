@@ -47,16 +47,28 @@ void Game::AddBoid()
     AddBoid({x, y}, direction);
 }
 
-void Game::AddBoid(Vector2 pos, Vector2 dir)
+Boid *Game::AddBoid(Vector2 pos, Vector2 dir)
 {
     if (boids.size() >= MAX_BOIDS)
-        return;
+        return nullptr;
 
     Boid *b = new Boid(this);
     b->pos = pos;
     b->dir = dir;
 
     boids.push_back(b);
+
+    return b;
+}
+
+void Game::AddUniqueBoid(Vector2 pos)
+{
+    double theta = ((float)rand() / (float)RAND_MAX) * 2 * PI;
+    Vector2 direction = {(float)cos(theta), (float)sin(theta)};
+
+    Boid *b = AddBoid(pos, direction);
+    if (b)
+        b->MakeUnique();
 }
 
 void Game::RemoveBoid()

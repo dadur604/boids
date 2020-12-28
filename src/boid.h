@@ -19,6 +19,7 @@ public:
     static float MINIMUM_DISTANCE;
 
     static Color MAIN_BOID_COLOR;
+    static Color UNIQUE_BOID_COLOR;
 
     Game *game;
     Vector2 pos;
@@ -31,6 +32,11 @@ public:
 
     Boid(Game *game);
 
+    void MakeUnique();
+
     void Update();
     void Draw() const;
+
+private:
+    bool unique = false;
 };
