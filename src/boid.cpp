@@ -15,7 +15,7 @@ float Boid::SEPARATION_LERP_AMOUNT = 0.2;
 float Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
 float Boid::COHESION_LERP_AMOUNT = 0.2;
 
-float Boid::SEPARATION_FACTOR = 200000;
+float Boid::MINIMUM_DISTANCE = 5;
 
 Boid::Boid(Game *game)
     : game(game)
@@ -51,7 +51,7 @@ void Boid::Update()
         Vector2 difference = Vector2Subtract(pos, boid->pos);
 
         separationDirection = Vector2Add(separationDirection,
-                                         Vector2Scale(Vector2Normalize(difference), SEPARATION_FACTOR / Vector2LengthSqr(difference)));
+                                         Vector2Scale(Vector2Normalize(difference), 1 + (MINIMUM_DISTANCE / Vector2LengthSqr(difference))));
 
         // Alignment
         averageAlignment = Vector2Add(averageAlignment, boid->dir);
@@ -65,7 +65,8 @@ void Boid::Update()
         // Separation
         if (Vector2LengthSqr(separationDirection) != 0)
         {
-            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(separationDirection), SEPARATION_LERP_AMOUNT * ROTATE_SPEED));
+            separationDirection = Vector2Scale(separationDirection, 1. / numLocalBoids);
+            dir = Vector2Normalize(Vector2Lerp(dir, separationDirection, SEPARATION_LERP_AMOUNT * ROTATE_SPEED));
         }
 
         // Alignment
@@ -120,7 +121,7 @@ void Boid::Draw() const
         // Draw vectors to aid debugging
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(dir, velocity * 40)), 2., GREEN);
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(norm_dir, velocity * 20)), 2., RED);
-        DrawLineEx(pos, Vector2Add(pos, separationDirection), 2., DARKPURPLE);
+        DrawLineEx(pos, Vector2Add(pos, Vector2Scale(separationDirection, 40)), 2., DARKPURPLE);
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(averageAlignment, 40)), 2., PINK);
         DrawLineEx(pos, Vector2Add(pos, cohesionDirection), 2., ORANGE);
 

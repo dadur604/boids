@@ -17,7 +17,7 @@ public:
     static float ALIGNMENT_LERP_AMOUNT;
     static float COHESION_LERP_AMOUNT;
 
-    static float SEPARATION_FACTOR;
+    static float MINIMUM_DISTANCE;
 
     Game *game;
     Vector2 pos;
