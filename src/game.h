@@ -3,7 +3,7 @@
 
 class Boid;
 
-const static int MAX_BOIDS = 150;
+const static int MAX_BOIDS = 200;
 
 class Game
 {

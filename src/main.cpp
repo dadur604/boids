@@ -66,7 +66,7 @@ int main(void)
         {
             GuiSetStyle(BUTTON, TEXT_ALIGNMENT, GUI_TEXT_ALIGN_LEFT);
             GuiSetStyle(BUTTON, TEXT_PADDING, 0);
-            if (GuiWindowBox({screenWidth - 320, 30, 300, 500}, "Parameters"))
+            if (GuiWindowBox({screenWidth - 320, 30, 300, 650}, "Parameters"))
             {
                 showParameters = false;
             }
@@ -87,44 +87,88 @@ int main(void)
             Boid::FLOCK_RANGE_SQR = GuiSlider({screenWidth - 300, 190, 150, 20},
                                               "",
                                               TextFormat("%2.2f", (float)Boid::FLOCK_RANGE_SQR),
-                                              Boid::FLOCK_RANGE_SQR, 5000, 80000);
+                                              Boid::FLOCK_RANGE_SQR, 500, 80000);
 
-            GuiLabel({screenWidth - 300, 220, 150, 20}, "Separation");
-            Boid::SEPARATION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 240, 150, 20},
+            GuiLine({screenWidth - 300, 230, 150, 0}, "Behavior");
+
+            GuiLabel({screenWidth - 300, 240, 150, 20}, "Separation");
+            Boid::SEPARATION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 260, 150, 20},
                                                      "",
                                                      TextFormat("%2.2f", (float)Boid::SEPARATION_LERP_AMOUNT),
-                                                     Boid::SEPARATION_LERP_AMOUNT, 0.1, 1);
+                                                     Boid::SEPARATION_LERP_AMOUNT, 0., 1);
 
-            GuiLabel({screenWidth - 300, 270, 150, 20}, "Alignment");
-            Boid::ALIGNMENT_LERP_AMOUNT = GuiSlider({screenWidth - 300, 290, 150, 20},
+            GuiLabel({screenWidth - 300, 290, 150, 20}, "Alignment");
+            Boid::ALIGNMENT_LERP_AMOUNT = GuiSlider({screenWidth - 300, 310, 150, 20},
                                                     "",
                                                     TextFormat("%2.2f", (float)Boid::ALIGNMENT_LERP_AMOUNT),
-                                                    Boid::ALIGNMENT_LERP_AMOUNT, 0.1, 1);
+                                                    Boid::ALIGNMENT_LERP_AMOUNT, 0., 1);
 
-            GuiLabel({screenWidth - 300, 320, 150, 20}, "Cohesion");
-            Boid::COHESION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 340, 150, 20},
+            GuiLabel({screenWidth - 300, 340, 150, 20}, "Cohesion");
+            Boid::COHESION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 360, 150, 20},
                                                    "",
                                                    TextFormat("%2.2f", (float)Boid::COHESION_LERP_AMOUNT),
-                                                   Boid::COHESION_LERP_AMOUNT, 0.1, 1);
+                                                   Boid::COHESION_LERP_AMOUNT, 0., 1);
 
-            GuiLabel({screenWidth - 300, 370, 150, 20}, "Separation Distance");
-            Boid::MINIMUM_DISTANCE = GuiSlider({screenWidth - 300, 390, 150, 20},
+            GuiLabel({screenWidth - 300, 390, 150, 20}, "Separation Distance");
+            Boid::MINIMUM_DISTANCE = GuiSlider({screenWidth - 300, 410, 150, 20},
                                                "",
                                                TextFormat("%2.2f", (float)Boid::MINIMUM_DISTANCE),
                                                Boid::MINIMUM_DISTANCE, 0, 10000);
 
-            Boid::DRAW_DEBUG = GuiCheckBox({screenWidth - 300, 420, 20, 20}, "Draw Debugging Information", Boid::DRAW_DEBUG);
+            Boid::DRAW_DEBUG = GuiCheckBox({screenWidth - 300, 440, 20, 20}, "Draw Debugging Information", Boid::DRAW_DEBUG);
 
-            GuiLabel({screenWidth - 300, 450, 150, 20}, "Number of Boids");
-            game.SetNumBoids(GuiSlider({screenWidth - 300, 470, 150, 20},
+            GuiLine({screenWidth - 300, 480, 150, 0}, "Boids");
+
+            GuiLabel({screenWidth - 300, 490, 150, 20}, "Number of Boids");
+            game.SetNumBoids(GuiSlider({screenWidth - 300, 510, 150, 20},
                                        "", TextFormat("%2.2f", (float)game.boids.size()),
                                        (float)game.boids.size(), 0, MAX_BOIDS));
 
-            if (GuiButton({screenWidth - 300, 500, 150, 20}, "Respawn Boids"))
+            GuiSetStyle(BUTTON, TEXT_PADDING, 5);
+            if (GuiButton({screenWidth - 300, 540, 150, 20}, "Respawn Boids"))
             {
                 int numBoids = game.boids.size();
                 game.SetNumBoids(0);
                 game.SetNumBoids(numBoids);
+            }
+
+            GuiLine({screenWidth - 300, 580, 150, 0}, "Presets");
+
+            if (GuiButton({screenWidth - 300, 600, 100, 20}, "Small Flocks"))
+            {
+                Boid::ROTATE_SPEED = 1;
+                Boid::FLOCK_RANGE_SQR = 5000;
+                Boid::SEPARATION_LERP_AMOUNT = 0.2;
+                Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
+                Boid::COHESION_LERP_AMOUNT = 0.2;
+                Boid::MINIMUM_DISTANCE = 2000;
+            }
+            if (GuiButton({screenWidth - 180, 600, 100, 20}, "Large Flocks"))
+            {
+                Boid::ROTATE_SPEED = 0.6;
+                Boid::FLOCK_RANGE_SQR = 50000;
+                Boid::SEPARATION_LERP_AMOUNT = 0.3;
+                Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
+                Boid::COHESION_LERP_AMOUNT = 0.25;
+                Boid::MINIMUM_DISTANCE = 10000;
+            }
+            if (GuiButton({screenWidth - 300, 630, 100, 20}, "Chaotic"))
+            {
+                Boid::ROTATE_SPEED = 0.1;
+                Boid::FLOCK_RANGE_SQR = 80000;
+                Boid::SEPARATION_LERP_AMOUNT = 0.1;
+                Boid::ALIGNMENT_LERP_AMOUNT = 0.1;
+                Boid::COHESION_LERP_AMOUNT = 1;
+                Boid::MINIMUM_DISTANCE = 10000;
+            }
+            if (GuiButton({screenWidth - 180, 630, 100, 20}, "Circles!"))
+            {
+                Boid::ROTATE_SPEED = 0.48;
+                Boid::FLOCK_RANGE_SQR = 5000;
+                Boid::SEPARATION_LERP_AMOUNT = 1;
+                Boid::ALIGNMENT_LERP_AMOUNT = 0;
+                Boid::COHESION_LERP_AMOUNT = 1;
+                Boid::MINIMUM_DISTANCE = 2000;
             }
         }
         else

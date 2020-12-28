@@ -1,17 +1,16 @@
 class Game;
 
-static float BOID_HEIGHT = 20;
-static float BOID_WIDTH = 10;
-
 class Boid
 {
 public:
     static bool DRAW_DEBUG;
 
-    static float FLOCK_RANGE_SQR;
+    static float BOID_HEIGHT;
+    static float BOID_WIDTH;
 
     static float BOID_SPEED;
     static float ROTATE_SPEED;
+    static float FLOCK_RANGE_SQR;
 
     static float SEPARATION_LERP_AMOUNT;
     static float ALIGNMENT_LERP_AMOUNT;

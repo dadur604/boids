@@ -6,16 +6,18 @@
 
 bool Boid::DRAW_DEBUG = false;
 
-float Boid::FLOCK_RANGE_SQR = 20000;
+float Boid::BOID_HEIGHT = 20;
+float Boid::BOID_WIDTH = 10;
 
 float Boid::BOID_SPEED = 10.;
-float Boid::ROTATE_SPEED = 0.6;
+float Boid::ROTATE_SPEED = 1;
+float Boid::FLOCK_RANGE_SQR = 5000;
 
 float Boid::SEPARATION_LERP_AMOUNT = 0.2;
 float Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
 float Boid::COHESION_LERP_AMOUNT = 0.2;
 
-float Boid::MINIMUM_DISTANCE = 5;
+float Boid::MINIMUM_DISTANCE = 2000;
 
 Boid::Boid(Game *game)
     : game(game)
@@ -123,7 +125,7 @@ void Boid::Draw() const
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(averageAlignment, 40)), 2., PINK);
         DrawLineEx(pos, Vector2Add(pos, cohesionDirection), 2., ORANGE);
 
-        DrawCircleLines(pos.x, pos.y, sqrtf(FLOCK_RANGE_SQR), YELLOW);
-        DrawCircle(localCenterOfMass.x, localCenterOfMass.y, 10, ORANGE);
+        DrawCircleLines(pos.x, pos.y, sqrtf(FLOCK_RANGE_SQR), GOLD);
+        DrawCircle(localCenterOfMass.x, localCenterOfMass.y, 4, ORANGE);
     }
 }

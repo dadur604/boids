@@ -4,7 +4,7 @@
 Game::Game(int width, int height)
     : width(width), height(height)
 {
-    SetNumBoids(20);
+    SetNumBoids(40);
 }
 
 void Game::SetNumBoids(int numBoids)
@@ -20,6 +20,17 @@ void Game::SetNumBoids(int numBoids)
     while (boids.size() > numBoids)
     {
         RemoveBoid();
+    }
+
+    if (numBoids >= 100)
+    {
+        Boid::BOID_HEIGHT = 10;
+        Boid::BOID_WIDTH = 5;
+    }
+    else
+    {
+        Boid::BOID_HEIGHT = 20;
+        Boid::BOID_WIDTH = 10;
     }
 
     this->numBoids = numBoids;
