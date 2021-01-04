@@ -20,6 +20,25 @@ public:
     void Update();
     void Draw() const;
 
+public:
+    bool DRAW_DEBUG = false;
+
+    float BOID_HEIGHT = 20;
+    float BOID_WIDTH = 10;
+
+    float BOID_SPEED = 10;
+    float ROTATE_SPEED = 1;
+    float FLOCK_RANGE_SQR = 5000;
+
+    float SEPARATION_LERP_AMOUNT = 0.2;
+    float ALIGNMENT_LERP_AMOUNT = 0.2;
+    float COHESION_LERP_AMOUNT = 0.2;
+
+    float MINIMUM_DISTANCE = 2000;
+
+    Color MAIN_BOID_COLOR = SKYBLUE;
+    Color UNIQUE_BOID_COLOR = RED;
+
 private:
     int numBoids;
 };

@@ -24,13 +24,13 @@ void Game::SetNumBoids(int numBoids)
 
     if (numBoids >= 100)
     {
-        Boid::BOID_HEIGHT = 10;
-        Boid::BOID_WIDTH = 5;
+        BOID_HEIGHT = 10;
+        BOID_WIDTH = 5;
     }
     else
     {
-        Boid::BOID_HEIGHT = 20;
-        Boid::BOID_WIDTH = 10;
+        BOID_HEIGHT = 20;
+        BOID_WIDTH = 10;
     }
 
     this->numBoids = numBoids;

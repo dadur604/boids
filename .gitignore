@@ -2,10 +2,13 @@
 # Build Outputs
 builds
 builds-debug
+Debug
+Release
 temp
 
 # Emacs Temp Files
 *~
 
-# VSCode
+# VS
+.vs
 .vscode

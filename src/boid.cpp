@@ -4,24 +4,6 @@
 
 #include <iostream>
 
-bool Boid::DRAW_DEBUG = false;
-
-float Boid::BOID_HEIGHT = 20;
-float Boid::BOID_WIDTH = 10;
-
-float Boid::BOID_SPEED = 10.;
-float Boid::ROTATE_SPEED = 1;
-float Boid::FLOCK_RANGE_SQR = 5000;
-
-float Boid::SEPARATION_LERP_AMOUNT = 0.2;
-float Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
-float Boid::COHESION_LERP_AMOUNT = 0.2;
-
-float Boid::MINIMUM_DISTANCE = 2000;
-
-Color Boid::MAIN_BOID_COLOR = SKYBLUE;
-Color Boid::UNIQUE_BOID_COLOR = RED;
-
 Boid::Boid(Game *game)
     : game(game)
 {
@@ -53,7 +35,7 @@ void Boid::Update()
             continue;
 
         // Only consider boids in our local range
-        if (Vector2LengthSqr(Vector2Subtract(pos, boid->pos)) > FLOCK_RANGE_SQR)
+        if (Vector2LengthSqr(Vector2Subtract(pos, boid->pos)) > game->FLOCK_RANGE_SQR)
             continue;
 
         numLocalBoids++;
@@ -62,7 +44,7 @@ void Boid::Update()
         Vector2 difference = Vector2Subtract(pos, boid->pos);
 
         separationDirection = Vector2Add(separationDirection,
-                                         Vector2Scale(Vector2Normalize(difference), 1 + (MINIMUM_DISTANCE / Vector2LengthSqr(difference))));
+                                         Vector2Scale(Vector2Normalize(difference), 1 + (game->MINIMUM_DISTANCE / Vector2LengthSqr(difference))));
 
         // Alignment
         averageAlignment = Vector2Add(averageAlignment, boid->dir);
@@ -77,14 +59,14 @@ void Boid::Update()
         if (Vector2LengthSqr(separationDirection) != 0)
         {
             separationDirection = Vector2Scale(separationDirection, 1. / numLocalBoids);
-            dir = Vector2Normalize(Vector2Lerp(dir, separationDirection, SEPARATION_LERP_AMOUNT * ROTATE_SPEED));
+            dir = Vector2Normalize(Vector2Lerp(dir, separationDirection, game->SEPARATION_LERP_AMOUNT * game->ROTATE_SPEED));
         }
 
         // Alignment
         if (Vector2LengthSqr(separationDirection) != 0)
         {
             averageAlignment = Vector2Scale(averageAlignment, 1. / numLocalBoids);
-            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(averageAlignment), ALIGNMENT_LERP_AMOUNT * ROTATE_SPEED));
+            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(averageAlignment), game->ALIGNMENT_LERP_AMOUNT * game->ROTATE_SPEED));
         }
 
         // Cohesion
@@ -93,13 +75,13 @@ void Boid::Update()
             localCenterOfMass = Vector2Scale(localCenterOfMass, 1. / numLocalBoids);
             cohesionDirection = Vector2Subtract(localCenterOfMass, pos);
 
-            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(cohesionDirection), COHESION_LERP_AMOUNT * ROTATE_SPEED));
+            dir = Vector2Normalize(Vector2Lerp(dir, Vector2Normalize(cohesionDirection), game->COHESION_LERP_AMOUNT * game->ROTATE_SPEED));
         }
     }
 
     // Move position according to velocity and direction
     pos = Vector2Add(pos,
-                     Vector2Scale(dir, BOID_SPEED));
+                     Vector2Scale(dir, game->BOID_SPEED));
 
     // Wrap around the screen
     if (pos.x > game->width)
@@ -117,15 +99,15 @@ void Boid::Draw() const
     Vector2 norm_dir = {dir.y * -1.0, dir.x};
 
     Vector2 bottom = Vector2Subtract(pos,
-                                     Vector2Scale(dir, BOID_HEIGHT));
+                                     Vector2Scale(dir, game->BOID_HEIGHT));
 
     DrawTriangle(
-        Vector2Add(pos, (Vector2Scale(dir, BOID_HEIGHT))),
-        Vector2Subtract(bottom, Vector2Scale(norm_dir, BOID_WIDTH)),
-        Vector2Add(bottom, Vector2Scale(norm_dir, BOID_WIDTH)),
-        unique ? UNIQUE_BOID_COLOR : MAIN_BOID_COLOR);
+        Vector2Add(pos, (Vector2Scale(dir, game->BOID_HEIGHT))),
+        Vector2Subtract(bottom, Vector2Scale(norm_dir, game->BOID_WIDTH)),
+        Vector2Add(bottom, Vector2Scale(norm_dir, game->BOID_WIDTH)),
+        unique ? game->UNIQUE_BOID_COLOR : game->MAIN_BOID_COLOR);
 
-    if (DRAW_DEBUG)
+    if (game->DRAW_DEBUG)
     {
         // Draw vectors to aid debugging
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(dir, 40)), 2., GREEN);
@@ -134,7 +116,7 @@ void Boid::Draw() const
         DrawLineEx(pos, Vector2Add(pos, Vector2Scale(averageAlignment, 40)), 2., PINK);
         DrawLineEx(pos, Vector2Add(pos, cohesionDirection), 2., ORANGE);
 
-        DrawCircleLines(pos.x, pos.y, sqrtf(FLOCK_RANGE_SQR), GOLD);
+        DrawCircleLines(pos.x, pos.y, sqrtf(game->FLOCK_RANGE_SQR), GOLD);
         DrawCircle(localCenterOfMass.x, localCenterOfMass.y, 4, ORANGE);
     }
 }

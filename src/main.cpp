@@ -81,50 +81,50 @@ int main(void)
             }
 
             GuiLabel({screenWidth - 300, 70, 150, 20}, "Boid Speed");
-            Boid::BOID_SPEED = GuiSlider({screenWidth - 300, 90, 150, 20},
+            game.BOID_SPEED = GuiSlider({screenWidth - 300, 90, 150, 20},
                                          "",
-                                         TextFormat("%2.2f", (float)Boid::BOID_SPEED),
-                                         Boid::BOID_SPEED, 1, 25);
+                                         TextFormat("%2.2f", (float)game.BOID_SPEED),
+                                         game.BOID_SPEED, 1, 25);
 
             GuiLabel({screenWidth - 300, 120, 150, 20}, "Rotation Speed");
-            Boid::ROTATE_SPEED = GuiSlider({screenWidth - 300, 140, 150, 20},
+            game.ROTATE_SPEED = GuiSlider({screenWidth - 300, 140, 150, 20},
                                            "",
-                                           TextFormat("%2.2f", (float)Boid::ROTATE_SPEED),
-                                           Boid::ROTATE_SPEED, 0.1, 1);
+                                           TextFormat("%2.2f", (float)game.ROTATE_SPEED),
+                                           game.ROTATE_SPEED, 0.1, 1);
 
             GuiLabel({screenWidth - 300, 170, 150, 20}, "Flock Range");
-            Boid::FLOCK_RANGE_SQR = GuiSlider({screenWidth - 300, 190, 150, 20},
+            game.FLOCK_RANGE_SQR = GuiSlider({screenWidth - 300, 190, 150, 20},
                                               "",
-                                              TextFormat("%2.2f", (float)Boid::FLOCK_RANGE_SQR),
-                                              Boid::FLOCK_RANGE_SQR, 500, 80000);
+                                              TextFormat("%2.2f", (float)game.FLOCK_RANGE_SQR),
+                                              game.FLOCK_RANGE_SQR, 500, 80000);
 
             GuiLine({screenWidth - 300, 230, 150, 0}, "Behavior");
 
             GuiLabel({screenWidth - 300, 240, 150, 20}, "Separation");
-            Boid::SEPARATION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 260, 150, 20},
+            game.SEPARATION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 260, 150, 20},
                                                      "",
-                                                     TextFormat("%2.2f", (float)Boid::SEPARATION_LERP_AMOUNT),
-                                                     Boid::SEPARATION_LERP_AMOUNT, 0., 1);
+                                                     TextFormat("%2.2f", (float)game.SEPARATION_LERP_AMOUNT),
+                                                     game.SEPARATION_LERP_AMOUNT, 0., 1);
 
             GuiLabel({screenWidth - 300, 290, 150, 20}, "Alignment");
-            Boid::ALIGNMENT_LERP_AMOUNT = GuiSlider({screenWidth - 300, 310, 150, 20},
+            game.ALIGNMENT_LERP_AMOUNT = GuiSlider({screenWidth - 300, 310, 150, 20},
                                                     "",
-                                                    TextFormat("%2.2f", (float)Boid::ALIGNMENT_LERP_AMOUNT),
-                                                    Boid::ALIGNMENT_LERP_AMOUNT, 0., 1);
+                                                    TextFormat("%2.2f", (float)game.ALIGNMENT_LERP_AMOUNT),
+                                                    game.ALIGNMENT_LERP_AMOUNT, 0., 1);
 
             GuiLabel({screenWidth - 300, 340, 150, 20}, "Cohesion");
-            Boid::COHESION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 360, 150, 20},
+            game.COHESION_LERP_AMOUNT = GuiSlider({screenWidth - 300, 360, 150, 20},
                                                    "",
-                                                   TextFormat("%2.2f", (float)Boid::COHESION_LERP_AMOUNT),
-                                                   Boid::COHESION_LERP_AMOUNT, 0., 1);
+                                                   TextFormat("%2.2f", (float)game.COHESION_LERP_AMOUNT),
+                                                   game.COHESION_LERP_AMOUNT, 0., 1);
 
             GuiLabel({screenWidth - 300, 390, 150, 20}, "Separation Distance");
-            Boid::MINIMUM_DISTANCE = GuiSlider({screenWidth - 300, 410, 150, 20},
+            game.MINIMUM_DISTANCE = GuiSlider({screenWidth - 300, 410, 150, 20},
                                                "",
-                                               TextFormat("%2.2f", (float)Boid::MINIMUM_DISTANCE),
-                                               Boid::MINIMUM_DISTANCE, 0, 10000);
+                                               TextFormat("%2.2f", (float)game.MINIMUM_DISTANCE),
+                                               game.MINIMUM_DISTANCE, 0, 10000);
 
-            Boid::DRAW_DEBUG = GuiCheckBox({screenWidth - 300, 440, 20, 20}, "Draw Debugging Information", Boid::DRAW_DEBUG);
+            game.DRAW_DEBUG = GuiCheckBox({screenWidth - 300, 440, 20, 20}, "Draw Debugging Information", game.DRAW_DEBUG);
 
             if (showColorPicker)
                 GuiLock();
@@ -148,39 +148,39 @@ int main(void)
 
             if (GuiButton({screenWidth - 300, 600, 100, 20}, "Small Flocks"))
             {
-                Boid::ROTATE_SPEED = 1;
-                Boid::FLOCK_RANGE_SQR = 5000;
-                Boid::SEPARATION_LERP_AMOUNT = 0.2;
-                Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
-                Boid::COHESION_LERP_AMOUNT = 0.2;
-                Boid::MINIMUM_DISTANCE = 2000;
+                game.ROTATE_SPEED = 1;
+                game.FLOCK_RANGE_SQR = 5000;
+                game.SEPARATION_LERP_AMOUNT = 0.2;
+                game.ALIGNMENT_LERP_AMOUNT = 0.2;
+                game.COHESION_LERP_AMOUNT = 0.2;
+                game.MINIMUM_DISTANCE = 2000;
             }
             if (GuiButton({screenWidth - 180, 600, 100, 20}, "Large Flocks"))
             {
-                Boid::ROTATE_SPEED = 0.6;
-                Boid::FLOCK_RANGE_SQR = 50000;
-                Boid::SEPARATION_LERP_AMOUNT = 0.3;
-                Boid::ALIGNMENT_LERP_AMOUNT = 0.2;
-                Boid::COHESION_LERP_AMOUNT = 0.25;
-                Boid::MINIMUM_DISTANCE = 10000;
+                game.ROTATE_SPEED = 0.6;
+                game.FLOCK_RANGE_SQR = 50000;
+                game.SEPARATION_LERP_AMOUNT = 0.3;
+                game.ALIGNMENT_LERP_AMOUNT = 0.2;
+                game.COHESION_LERP_AMOUNT = 0.25;
+                game.MINIMUM_DISTANCE = 10000;
             }
             if (GuiButton({screenWidth - 300, 630, 100, 20}, "Chaotic"))
             {
-                Boid::ROTATE_SPEED = 0.1;
-                Boid::FLOCK_RANGE_SQR = 80000;
-                Boid::SEPARATION_LERP_AMOUNT = 0.1;
-                Boid::ALIGNMENT_LERP_AMOUNT = 0.1;
-                Boid::COHESION_LERP_AMOUNT = 1;
-                Boid::MINIMUM_DISTANCE = 10000;
+                game.ROTATE_SPEED = 0.1;
+                game.FLOCK_RANGE_SQR = 80000;
+                game.SEPARATION_LERP_AMOUNT = 0.1;
+                game.ALIGNMENT_LERP_AMOUNT = 0.1;
+                game.COHESION_LERP_AMOUNT = 1;
+                game.MINIMUM_DISTANCE = 10000;
             }
             if (GuiButton({screenWidth - 180, 630, 100, 20}, "Circles!"))
             {
-                Boid::ROTATE_SPEED = 0.48;
-                Boid::FLOCK_RANGE_SQR = 5000;
-                Boid::SEPARATION_LERP_AMOUNT = 1;
-                Boid::ALIGNMENT_LERP_AMOUNT = 0;
-                Boid::COHESION_LERP_AMOUNT = 1;
-                Boid::MINIMUM_DISTANCE = 2000;
+                game.ROTATE_SPEED = 0.48;
+                game.FLOCK_RANGE_SQR = 5000;
+                game.SEPARATION_LERP_AMOUNT = 1;
+                game.ALIGNMENT_LERP_AMOUNT = 0;
+                game.COHESION_LERP_AMOUNT = 1;
+                game.MINIMUM_DISTANCE = 2000;
             }
             GuiUnlock();
 
@@ -193,10 +193,10 @@ int main(void)
                 }
 
                 GuiLabel({screenWidth - 980, screenHeight - 360, 220, 20}, "Main Boid Color");
-                Boid::MAIN_BOID_COLOR = GuiColorPicker({screenWidth - 980, screenHeight - 340, 220, 220}, Boid::MAIN_BOID_COLOR);
+                game.MAIN_BOID_COLOR = GuiColorPicker({screenWidth - 980, screenHeight - 340, 220, 220}, game.MAIN_BOID_COLOR);
 
                 GuiLabel({screenWidth - 680, screenHeight - 360, 220, 20}, "Unique Boid Color");
-                Boid::UNIQUE_BOID_COLOR = GuiColorPicker({screenWidth - 680, screenHeight - 340, 220, 220}, Boid::UNIQUE_BOID_COLOR);
+                game.UNIQUE_BOID_COLOR = GuiColorPicker({screenWidth - 680, screenHeight - 340, 220, 220}, game.UNIQUE_BOID_COLOR);
 
                 GuiLabel({screenWidth - 380, screenHeight - 360, 220, 20}, "Background Color");
                 backgroundColor = GuiColorPicker({screenWidth - 380, screenHeight - 340, 220, 220}, backgroundColor);
