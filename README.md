@@ -17,7 +17,7 @@ As with most artificial life simulations, Boids is an example of emergent behavi
 ## Building  
   
 Ensure you have the two submodules' contents cloned!  
-From the cli, you can run `git submodule init` and `git submodule update` after cloning to install the submodules.  
+From the cli, you can run `git submodule update --init`  after cloning to install the submodules.  
   
 **Windows:**  
 Edit `build-windows.bat`, and Ensure that `VC_INIT` points to your local installation of Visual Studio's C++ build tools.  
